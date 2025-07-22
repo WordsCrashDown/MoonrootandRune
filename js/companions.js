@@ -1,3 +1,8 @@
+// companions.js
+
+// Global plant dataset with full companion planting ruleset
+// This is loaded externally in the HTML and consumed by the UI logic
+
 window.companions = [
   {
     name: "Basil",
@@ -11,6 +16,8 @@ window.companions = [
     zone: [5, 6, 7, 8, 9],
     lifecycle: "annual",
     season: "summer",
+    placement: ["windowsill", "counter"],
+    harvestsPerYear: 3,
     companions: ["Tomato", "Oregano", "Chives"],
     enemies: ["Rue", "Sage"]
   },
@@ -26,6 +33,8 @@ window.companions = [
     zone: [4, 5, 6, 7, 8],
     lifecycle: "annual",
     season: "summer",
+    placement: ["outdoor"],
+    harvestsPerYear: 2,
     companions: ["Basil", "Marigold", "Chives"],
     enemies: ["Potato", "Corn"]
   },
@@ -41,8 +50,128 @@ window.companions = [
     zone: [3, 4, 5, 6, 7, 8],
     lifecycle: "perennial",
     season: "spring",
+    placement: ["counter", "outdoor"],
+    harvestsPerYear: 3,
     companions: ["Carrot", "Tomato", "Basil"],
     enemies: []
+  },
+  {
+    name: "Mint",
+    type: "herb",
+    spacing: 12,
+    height: 24,
+    light: "partial shade",
+    water: "High - 1.5 inches/week",
+    wateringLevel: "high",
+    temperature: "60-75°F",
+    zone: [3, 4, 5, 6, 7, 8],
+    lifecycle: "perennial",
+    season: "spring",
+    placement: ["container", "windowsill"],
+    harvestsPerYear: 4,
+    companions: ["Cabbage", "Tomato"],
+    enemies: ["Parsley"]
+  },
+  {
+    name: "Lavender",
+    type: "herb",
+    spacing: 18,
+    height: 24,
+    light: "full sun",
+    water: "Low - 0.5 inch/week",
+    wateringLevel: "low",
+    temperature: "60-85°F",
+    zone: [5, 6, 7, 8],
+    lifecycle: "perennial",
+    season: "summer",
+    placement: ["windowsill", "outdoor"],
+    harvestsPerYear: 1,
+    companions: ["Rosemary", "Echinacea"],
+    enemies: ["Mint"]
+  },
+  {
+    name: "Echinacea",
+    type: "flower",
+    spacing: 12,
+    height: 36,
+    light: "full sun",
+    water: "Medium - 1 inch/week",
+    wateringLevel: "medium",
+    temperature: "60-80°F",
+    zone: [3, 4, 5, 6, 7],
+    lifecycle: "perennial",
+    season: "summer",
+    placement: ["outdoor"],
+    harvestsPerYear: 1,
+    companions: ["Lavender"],
+    enemies: []
+  },
+  {
+    name: "Aloe Vera",
+    type: "succulent",
+    spacing: 8,
+    height: 14,
+    light: "full sun",
+    water: "Low - 0.25 inch/week",
+    wateringLevel: "low",
+    temperature: "70-95°F",
+    zone: [9, 10],
+    lifecycle: "perennial",
+    season: "summer",
+    placement: ["windowsill", "counter"],
+    harvestsPerYear: 2,
+    companions: ["Cactus"],
+    enemies: []
+  },
+  {
+    name: "Cilantro",
+    type: "herb",
+    spacing: 6,
+    height: 12,
+    light: "partial sun",
+    water: "Medium - 0.75 inch/week",
+    wateringLevel: "medium",
+    temperature: "50-75°F",
+    zone: [2, 3, 4, 5, 6, 7],
+    lifecycle: "annual",
+    season: "spring",
+    placement: ["windowsill", "outdoor"],
+    harvestsPerYear: 2,
+    companions: ["Spinach"],
+    enemies: ["Fennel"]
+  },
+  {
+    name: "Fennel",
+    type: "vegetable",
+    spacing: 12,
+    height: 30,
+    light: "full sun",
+    water: "Medium - 1 inch/week",
+    wateringLevel: "medium",
+    temperature: "60-75°F",
+    zone: [4, 5, 6, 7, 8],
+    lifecycle: "annual",
+    season: "summer",
+    placement: ["outdoor"],
+    harvestsPerYear: 1,
+    companions: [],
+    enemies: ["Cilantro", "Tomato", "Basil"]
+  },
+  {
+    name: "Lemon Tree",
+    type: "fruit",
+    spacing: 48,
+    height: 96,
+    light: "full sun",
+    water: "High - 2 inches/week",
+    wateringLevel: "high",
+    temperature: "65-95°F",
+    zone: [9, 10, 11],
+    lifecycle: "perennial",
+    season: "year-round",
+    placement: ["floor", "outdoor"],
+    harvestsPerYear: 2,
+    companions: ["Marigold"],
+    enemies: ["Potato"]
   }
-  // Add more plants here as needed...
 ];
