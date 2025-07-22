@@ -1,5 +1,139 @@
 // companions.js
 
+//Collision Detection
+function placePlant(cell, plant) {
+  const x = parseInt(cell.dataset.x);
+  const y = parseInt(cell.dataset.y);
+  const planter = planters.find(p => p.id === cell.dataset.planterId);
+  if (!planter) return;
+
+  function placePlant(cell, plant) {
+  const planter = planters.find(p => p.id === cell.dataset.planterId);
+  if (!planter) return;
+
+  const x = parseInt(cell.dataset.x);
+  const y = parseInt(cell.dataset.y);
+  const spacing = plant.spacing || 12;
+
+  // Save plant placement for future checks
+  planter.plants.push({ name: plant.name, x, y, spacing });
+
+  // Visually label the plant
+  const label = document.createElement('div');
+  label.textContent = plant.name;
+  label.style.position = 'absolute';
+  label.style.left = cell.style.left;
+  label.style.top = cell.style.top;
+  label.style.color = '#fff';
+  label.style.fontSize = '0.7em';
+  label.style.background = 'rgba(0,0,0,0.5)';
+  label.style.padding = '1px 3px';
+  gridCanvas.appendChild(label);
+}
+
+// validate Plant Footprint
+function validatePlantFootprint(planter, x, y, plant) {
+  const spacing = plant.spacing || 12; // inches
+  const px = x, py = y;
+
+  // Check bounds
+  for (let dx = 0; dx < spacing; dx += GRID_UNIT) {
+    for (let dy = 0; dy < spacing; dy += GRID_UNIT) {
+      if (px + dx >= planter.widthIn || py + dy >= planter.heightIn) return false;
+    }
+  }
+
+  // Check for overlaps with other placed plants
+  for (let placed of planter.plants) {
+    const pSpacing = placed.spacing || 12;
+
+    const overlapX = !(x + spacing <= placed.x || x >= placed.x + pSpacing);
+    const overlapY = !(y + spacing <= placed.y || y >= placed.y + pSpacing);
+
+    if (overlapX && overlapY) {
+      return false; // collision detected
+    }
+  }
+
+  return true;
+}
+
+ // Enemy proximity check
+  if (planter.plants) {
+    for (const other of planter.plants) {
+      const enemyDistance = plant.spacing || 12;
+      if ((plant.enemies || []).includes(other.name)) {
+        const distX = Math.abs(other.x - px);
+        const distY = Math.abs(other.y - py);
+        if (distX < enemyDistance && distY < enemyDistance) {
+          return false;
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+// AUTO-arrange button function
+function autoArrange() {
+  const selectedPlanter = planters[0]; // Assume 1 for now
+  if (!selectedPlanter) return;
+
+  const unplacedPlants = companions.slice(); // Copy of all plants
+  for (const plant of unplacedPlants) {
+    let placed = false;
+
+    for (let x = 0; x < selectedPlanter.widthIn; x += GRID_UNIT) {
+      for (let y = 0; y < selectedPlanter.heightIn; y += GRID_UNIT) {
+        if (validatePlantFootprint(selectedPlanter, x, y, plant)) {
+          const cell = selectedPlanter.cells.find(c => parseInt(c.dataset.x) === x && parseInt(c.dataset.y) === y);
+          if (cell) {
+            placePlant(cell, plant);
+            placed = true;
+            break;
+          }
+        }
+      }
+      if (placed) break;
+    }
+  }
+
+  alert('Auto-arrangement complete.');
+}
+function renderPlantList() {
+  const zone = document.getElementById('filterZone').value.toLowerCase();
+  const season = document.getElementById('filterSeason').value;
+  const lifecycle = document.getElementById('filterLifecycle').value;
+
+  const list = document.getElementById('plantList');
+  list.innerHTML = '';
+
+  companions.forEach(plant => {
+    if (
+      (zone && !plant.zones?.some(z => z.toLowerCase() === zone)) ||
+      (season && plant.season !== season) ||
+      (lifecycle && plant.lifecycle !== lifecycle)
+    ) return;
+
+    const div = document.createElement('div');
+    div.className = 'plant-draggable';
+    div.textContent = plant.name;
+    div.draggable = true;
+    div.ondragstart = () => selectedPlant = plant;
+
+    // Tooltip on hover with filter details
+    div.title = `Light: ${plant.light}, Water: ${plant.water}, Zones: ${plant.zones?.join(', ')}, Lifecycle: ${plant.lifecycle}`;
+
+    list.appendChild(div);
+  });
+}
+function applyPlantFilters() {
+  renderPlantList();
+}
+
+
+
 // Global plant dataset with full companion planting ruleset
 // This is loaded externally in the HTML and consumed by the UI logic
 
